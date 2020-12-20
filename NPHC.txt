@@ -1,0 +1,59 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys 
+import unittest
+from selenium.webdriver.support.ui import Select
+import HtmlTestRunner
+import os
+import sys 
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
+from pynput.keyboard import Key, Controller
+
+
+class Assignment(unittest.TestCase):
+
+    driver = webdriver.Chrome("C:\Program Files (x86)\chromedriver\chromedriver.exe")
+
+    def uploading(self, file_path):
+        
+        self.driver.get("http:\\localhost:8080\\")
+	
+    # click upload file and click the dispense now button
+        time.sleep(2)
+
+        ## please define the file location in "file path"
+        self.driver.find_element_by_xpath('//*[@id="contents"]/div[1]/div[2]/input').send_keys(file_path)
+
+        text1 = self.driver.find_element_by_xpath('//*[@id="contents"]/a[2]')
+
+        button_text = text1.text
+
+        ## verify the button text 
+        if text1.text == "Dispense Now":
+
+            self.driver.implicitly_wait(2)
+        
+            self.driver.find_element_by_xpath('//*[@id="contents"]/a[2]').click()
+
+            self.driver.implicitly_wait(2)
+
+            text2 = self.driver.find_element_by_xpath('//*[@id="app"]/div/main/div/div/div')
+
+            display_text = text2.text
+
+            ## verify the display message 
+
+            if text2.text == "Cash dispensed":
+
+                self.driver.quit()
+
+
+    def test1(self):
+
+        ## please define the file location in "file path"
+     	self.uploading ("E:\\Sample\\test2.csv")
+
+
